@@ -1,5 +1,6 @@
 //Operator OverLoads
 
+//equatable operator overload
 func ==(left:OblVal, right:OblVal) -> Bool {
     switch left {
     case .int(let val):
