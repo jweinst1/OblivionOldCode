@@ -58,3 +58,38 @@ func ==(left:OblVal, right:OblVal) -> Bool {
         }
     }
 }
+
+//overload for not equal operator
+func !=(left:OblVal, right:OblVal) -> Bool {
+    return !(left == right)
+}
+
+//gt operator overload
+func >(left:OblVal, right:OblVal) -> Bool {
+    switch left {
+    case .int(_):
+        switch right {
+        case .int(_):
+            return left.int > right.int
+        default:
+            return false
+        }
+    default:
+        return false
+    }
+}
+
+//lt operator overload
+func <(left:OblVal, right:OblVal) -> Bool {
+    switch left {
+    case .int(_):
+        switch right {
+        case .int(_):
+            return left.int < right.int
+        default:
+            return false
+        }
+    default:
+        return false
+    }
+}

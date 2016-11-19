@@ -6,6 +6,8 @@
 enum OblFunc {
     
     indirect case fn(([OblVal]) -> OblVal, OblFunc)
+    //the first function must return a bool oblivion value.
+    indirect case cond(([OblVal]) -> OblVal, OblFunc, OblFunc)
     case end
     
     //checks if enum is the end case.
@@ -25,7 +27,15 @@ enum OblFunc {
                 return fnc(args)
             }
             else {
-                return fnc(next.call(args: args))
+                return fnc([next.call(args: args)])
+            }
+            //handles the condition node
+        case .cond(let ifs, let t, let f):
+            if ifs(args).bool {
+                return t.call(args:args)
+            }
+            else {
+                return f.call(args:args)
             }
         default:
             return OblVal.undef
