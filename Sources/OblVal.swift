@@ -28,6 +28,7 @@ enum OblVal:CustomStringConvertible {
     var description: String {
         //recursive pretty printer for map cases
         func repr(space:Int, map:[String:OblVal]) -> String {
+            guard !map.isEmpty else { return "()" }
             let spacer = String(repeating: " ", count: space)
             var keyval = ""
             for (key, val) in map {
@@ -132,6 +133,31 @@ enum OblVal:CustomStringConvertible {
     
     mutating func transBool(value:Bool) -> Void {
         self = .bool(value)
+    }
+    
+    //computed property that determines if a OblVal evaluats to true or not
+    //used for condition nodes
+    var boolEval: Bool {
+        switch self {
+        case .int(let val):
+            if val == 0 {
+                return false
+            } else {
+                return true
+            }
+        case .str(let val):
+            if val == "" {
+                return false
+            } else {
+                return true
+            }
+        case .bool(let val):
+            return val
+        case .map(_):
+            return true
+        default:
+            return false
+        }
     }
 }
 

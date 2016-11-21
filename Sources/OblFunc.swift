@@ -1,8 +1,5 @@
 //Implements function in Oblivion Language
 
-
-
-
 enum OblFunc {
     
     indirect case fn(([OblVal]) -> OblVal, OblFunc)
@@ -39,6 +36,24 @@ enum OblFunc {
             }
         default:
             return OblVal.undef
+        }
+    }
+    
+}
+
+//Implementation of environment object
+
+class Env {
+    //uses a two layer storage system that allows mapped and ordering of variables
+    var defs:[String:OblVal]
+    
+    init(){
+        self.defs = [String:OblVal]()
+    }
+    
+    subscript (index:String) -> OblVal {
+        get {
+            
         }
     }
 }
