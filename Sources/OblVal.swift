@@ -118,6 +118,23 @@ enum OblVal:CustomStringConvertible {
         }
     }
     
+    //setter method that returns a new instance of the map
+    //returns undefined otherwise
+    func set(key:OblVal, value:OblVal) -> OblVal {
+        switch self {
+        case .map(var map):
+            switch key {
+            case.map(_):
+                return OblVal.undef //needs error
+            default:
+                map[key.description] = value
+                return OblVal.map(map)
+            }
+        default:
+            return OblVal.undef //needs error
+        }
+    }
+    
     //methods that transform the oblval into a different type or form
     mutating func transMap() -> Void {
         self = .map([String:OblVal]())
