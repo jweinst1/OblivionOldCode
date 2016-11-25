@@ -42,6 +42,20 @@ class OblFunc {
         }
     }
     
+    //puts arguments in the execution array
+    func putArgument(item:String) -> Void {
+        //needs error for invalid paramter
+        self.arguments.append(Operand.param(item))
+    }
+    
+    func putArgument(item:OblVal) -> Void {
+        self.arguments.append(Operand.value(item))
+    }
+    
+    func putArgument(item:OblFunc) -> Void {
+        self.arguments.append(Operand.fn(item))
+    }
+    
     //executes a function's lambda or sub functions
     func call() -> OblVal {
         //not implemented
