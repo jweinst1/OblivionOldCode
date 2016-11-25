@@ -31,6 +31,17 @@ class OblFunc {
         self.next = fn
     }
     
+    func addParam(name:String) -> Void {
+        self.params.append(name)
+    }
+    
+    func bindParams(args:[OblVal]) -> Void {
+        //needs an error
+        for i in 0..<self.params.count {
+            self.env.set(index:self.params[i], val:args[i])
+        }
+    }
+    
     //executes a function's lambda or sub functions
     func call() -> OblVal {
         //not implemented
