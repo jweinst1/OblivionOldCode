@@ -15,10 +15,14 @@ class OblFunc {
     var env:Env
     var next:OblFunc?
     //this is optional as user-defined functions don't have base operations
-    var lambda:(([OblVal]) -> OblVal)?
+    var oper:OblOp?
     //computed property to check if another function in th current body exists
     var hasNext:Bool {
         return self.next != nil
+    }
+    
+    var isOperation:Bool {
+        return self.oper != nil
     }
     
     init(penv:Env){
@@ -27,12 +31,30 @@ class OblFunc {
         self.arguments = [Operand]()
     }
     
+    //alternate initializer to automatically create oper bound function
+    init(penv:Env, opname:String){
+        self.env = penv
+        self.params = [String]()
+        self.arguments = [Operand]()
+        self.setOper(key:opname)
+    }
+    
     func setNext(fn:OblFunc) -> Void {
         self.next = fn
     }
     
+    func setOper(key:String) -> Void {
+        //needs key not found error
+        self.oper = StdOblOps.dict[key]!
+    }
+    
     func addParam(name:String) -> Void {
         self.params.append(name)
+    }
+    
+    func setParam(name:String, val:OblVal) -> Void {
+        //needs error if argued param is not created yet.
+        self.env.set(index:name, val:val)
     }
     
     func bindParams(args:[OblVal]) -> Void {
@@ -56,10 +78,19 @@ class OblFunc {
         self.arguments.append(Operand.fn(item))
     }
     
-    //executes a function's lambda or sub functions
+    //executes a function's operation
     func call() -> OblVal {
-        //not implemented
-        return OblVal.undef
+        var newargs = [OblVal]()
+        for var elem in self.arguments {
+            newargs.append(elem.call(env:self.env))
+        }
+        if self.hasNext {
+            self.oper!(newargs, self.env)
+            return self.next!.call()
+        }
+        else {
+            return self.oper!(newargs, self.env)
+        }
     }
 }
 
