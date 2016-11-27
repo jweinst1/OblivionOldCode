@@ -20,11 +20,7 @@ func ==(left:OblVal, right:OblVal) -> Bool {
             return val == other
         case .bool(let other):
             return val == "" && !other
-        case .null:
-            return false
-        case .map(let val):
-            return false
-        case .undef:
+        default:
             return false
         }
     case .bool(let val):
@@ -56,6 +52,8 @@ func ==(left:OblVal, right:OblVal) -> Bool {
         default:
             return false
         }
+    default:
+        return false
     }
 }
 

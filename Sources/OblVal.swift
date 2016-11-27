@@ -4,6 +4,7 @@ enum OblVal:CustomStringConvertible {
     case int(Int)
     case str(String)
     case bool(Bool)
+    case fn(OblFunc)
     indirect case map([String:OblVal])
     case null
     case undef
@@ -53,6 +54,8 @@ enum OblVal:CustomStringConvertible {
             return String(val)
         case .map(let map):
             return repr(space:0, map:map)
+        case .fn(_):
+            return "(function)"
         case .null:
             return "null"
         case .undef:
@@ -171,6 +174,8 @@ enum OblVal:CustomStringConvertible {
         case .bool(let val):
             return val
         case .map(_):
+            return true
+        case .fn(_):
             return true
         default:
             return false
