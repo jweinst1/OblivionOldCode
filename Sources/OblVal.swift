@@ -21,6 +21,10 @@ enum OblVal:CustomStringConvertible {
     init(val:Bool){
         self = .bool(val)
     }
+    //initializer for function values
+    init(val:OblFunc){
+        self = .fn(val)
+    }
     
     init(){
         self = .map([String:OblVal]())
